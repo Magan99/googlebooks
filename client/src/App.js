@@ -5,7 +5,7 @@ import Search from "./pages/Books/Search";
 import Saved from "./pages/Books/Saved";
 import Header from "./components/Header";
 // import './components/Header/Header';
-// import './components/Header/Header.css'
+import './components/Header/Header.css'
 
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
         <Header/>
         <Switch>
           <Route exact path="/" component={Books} />
-          {/* <Route exact path="/Search" pages={Search} /> */}
+          <Route exact path="/Search" pages={Search} />
           <Route exact path="/Saved" component={Saved} />
           {/* <Route component={NoMatch} /> */}
         </Switch>

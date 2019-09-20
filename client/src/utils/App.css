@@ -12,14 +12,14 @@ h1{
     font-weight: 300;
 }
 
-.Jumbotron {
+/* .Jumbotron {
     background-color:lightskyblue;
-  }
+  } */
 
   body{
-    background-color:lightskyblue;
+    background-color:powderblue;
   }
-  body {
-    background-color: lightblue;
+  .saved{
+    background-image:url('../components/Header/library.jpeg') !important;
   }
   

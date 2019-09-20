@@ -7,6 +7,9 @@ export default {
         // const queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + authKey + "&q="
     return axios.get("https://www.googleapis.com/books/v1/volumes?q=" + title);
   },
+  getBooks: function() {
+    return axios.get("/api/books");
+  },
   // Gets the book with the given id
   getBook: function(id) {
     return axios.get("/api/googlebooks/" + id);

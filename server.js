@@ -12,33 +12,11 @@ app.use(express.json());
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
-
-// Add routes, both API and view
-const booksController = require('./controllers/booksController');
-const router = new express.Router();
-// Get saved articles from db
-router.get('/api/books', booksController.find);
-// Save articles to db
-router.post('/api/books', booksController.insert);
-// Delete articles to db
-router.delete('/api/books', booksController.remove);
-
-// Catch all, send other requests to react app 
-router.get('*', function(req,res){
-    res.sendFile(path.join(__dirname, "./client/build/index.html"))
-})
-
 // Add routes, both API and view
 app.use(routes);
 
 // Connect to the Mongo DB
-mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/googlebooks");
-
-  app.get('/', function(req,res){
-      res.send('Hello world')
-      // console.log('Hello world');
-  });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googleBook");
 
 // Start the API server
 app.listen(PORT, function() {

@@ -16,29 +16,17 @@ class Books extends Component {
   state = {
     books: [],
     title:"",
+  
   };
 
 
-  // When the component mounts, load all books and save them to this.state.books
-  // componentDidMount() {
-  //   this.loadBooks();
-  // }
-
-  // // Loads all books  and sets them to this.state.books
-  // loadBooks = () => {
-  //   API.getBooks()
-  //     .then(res =>
-  //       this.setState({ books: res.data, title: "", author: "", description: "", image: "",link: "",})
-  //     )
-  //     .catch(err => console.log(err));
-  // };
-
+  
   // Deletes a book from the database with a given id, then reloads books from the db
-  // deleteBook = id => {
-  //   API.deleteBook(id)
-  //     .then(res => this.loadBooks())
-  //     .catch(err => console.log(err));
-  // };
+  deleteBook = id => {
+    API.deleteBook(id)
+      .then(res => this.loadBooks())
+      .catch(err => console.log(err));
+  };
 
   // Handles updating component state when the user types into the input field
   handleInputChange = event => {
@@ -48,7 +36,7 @@ class Books extends Component {
     });
   };
 
-  // When the form is submitted, use the API.saveBook method to save the book data
+  // When the form is submitted, use the API.saveBook meToDataBasethod to save the book data
   // Then reload books from the database
   handleFormSubmit = event => {
     event.preventDefault();
@@ -60,16 +48,37 @@ class Books extends Component {
     }
   };
 
+  saveBookToDataBase = (book) => {
+    console.log('iddd', book)
+    API.saveBook({
+      title: book.volumeInfo.title,
+      author: book.volumeInfo.author,
+      description: book.volumeInfo.description,
+      image: book.volumeInfo.imageLinks.thumbnail,
+      link: book.volumeInfo.infoLink
+
+    })
+        .then(res => console.log('got it'))
+        .catch(err => console.log(err));
+
+
+
+  }
+
   render() {
 
     const {books} = this.state
     console.log('books', books)
 
+    // if (!this.state.books) {
+    //   return <span>Loading...</span>
+    // }
+
     return (
       <div className="container">
 
-            <Jumbotron> 
-              <h1>Search Books</h1>
+            <Jumbotron > 
+              <h2>Search Books</h2>
             </Jumbotron>
             <form>
               <Input
@@ -86,26 +95,28 @@ class Books extends Component {
               </FormBtn>
             </form>
  
-            {books.length ? (
+            {this.state.books.length > 0 ? (
               <ul>
-                {books.map(book => (
+                {this.state.books.map(book => (
                   <li key={book.id}>
-                      <img src={book.volumeInfo.imageLinks.thumbnail} alt="book" />
-                      <strong>
-                        {book.volumeInfo.title} by {book.volumeInfo.authors[0]}
+                      <img src={book.volumeInfo.imageLinks === undefined ? 'http://placehold.it/200x200' : book.volumeInfo.imageLinks.thumbnail} />
+                        {book.volumeInfo.title} by {book.volumeInfo.authors === undefined ? 'John Doe' : book.volumeInfo.authors[0]}
                         {book.volumeInfo.description}
-                      </strong>
                       <a href={book.volumeInfo.infoLink}>
                         <button>View</button>
                       </a>
                       
+                      
 
                       
-                    <button onClick={() => this.deleteBook(book.id)} />
+                    <button  onClick={() => this.saveBookToDataBase(book)}>Save</button>
+                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
                   </li>
                 ))}
               </ul>
-            ) : (
+            ):
+            (
+
               <h3>No Results to Display</h3>
             )}
 
